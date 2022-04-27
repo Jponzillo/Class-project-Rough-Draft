@@ -1,0 +1,77 @@
+#These are the first line(s) of code in this project.
+
+import re
+
+import pandas as pd
+
+import numpy as np
+
+import seaborn as sns
+
+from datetime import datetime
+
+from sklearn import preprocessing
+
+from sklearn import linear_model
+
+from sklearn.linear_model import LinearRegression
+
+from google.colab import files
+
+from sklearn.preprocessing import PolynomialFeatures
+
+from sklearn.pipeline import make_pipeline
+
+df = pd.read_csv('./Perth Data.csv')
+
+df=df.dropna()
+
+new_df = df [ ['PRICE', 'LAND_AREA', 'FLOOR_AREA','BUILD_YEAR', 'DATE_SOLD', 'POSTCODE', 'NEAREST_STN_DIST', 'BEDROOMS', 'BATHROOMS', 'GARAGE', 'CBD_DIST', 'NEAREST_SCH_RANK'] ]
+
+corrM=new_df.corr()
+
+sns.heatmap(corrM)
+
+#We can see in the heat map pictured that there exist the strongest (albeit likely highly inter correlated and spurious) correlations between the price and the distance to the central business district (CBD_DIST) Floor Area, Bathrooms, and the rankings of the nearest school district.
+
+#The Wiki's second page includes plots of the KDE estimators. Some conclusions to be drawn: A positive linear association between more bathrooms and increased housing prices, but with such high variance among individual bathroom counts that the trend will likely have a weak correlation. The correlation seemed obvious, though the high degree of variance was surprising.
+
+#Floor Area and price appear to have a positive correlation, which shouldn't be especially surprising.
+
+#The Central business district appears to have a weak exponential decay in pricing, with further distances to the business district resulting in decreased prices. This is relatively unsurprising, though I would like to run an exponential fit to determine the extent that the model succeeds.
+
+#New Houses, that is to say houses with a newer build year seem to be cheaper than older ones, however the correlation appears to be made less helpful by virtue of the extreme deviation.
+
+#The Date sold lineplot does appear to be linear in orientation, but the actual predictive power via a linear model seems limited
+
+#For Aggregate plotting we did the following to illustrate problems that may arise from conclusions with the data.
+
+new_df = df [ [ 'PRICE', 'LAND_AREA', 'FLOOR_AREA','BUILD_YEAR','DATE_SOLD', 'POSTCODE', 'NEAREST_STN_DIST', 'BEDROOMS', 'BATHROOMS', 'GARAGE', 'CBD_DIST', 'NEAREST_SCH_RANK' ] ]
+
+new_df.dropna()
+
+df_agg = new_df.groupby('POSTCODE')['PRICE'].describe()
+
+df_agg['Ratio']=df_agg['std']/df_agg['mean']
+
+sns.lineplot(data=df_agg, x='POSTCODE', y= 'Ratio')
+
+#The graph of coefficients of variance, though not necessarily being akin to high variance with values exceeding CV= 1, still sees relatively high CV's, especially with small sample sizes within postal codes.
+
+#The Below Code was used to upload perth data into collab:
+
+import re
+
+import pandas as pd
+
+import numpy as np
+
+import seaborn as sns
+
+from datetime import datetime
+
+from sklearn import preprocessing
+
+from google.colab import files
+
+files.upload()
