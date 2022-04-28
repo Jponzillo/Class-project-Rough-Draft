@@ -1,4 +1,4 @@
-#These are the first line(s) of code in this project.
+#These are the first line(s) of code in this project, if you want a slightly more managable file with the png's lined up in a more easy to read way I took the liberty of uploading a wiki, with the code and image(s)
 
 import re
 
@@ -55,6 +55,10 @@ df_agg = new_df.groupby('POSTCODE')['PRICE'].describe()
 df_agg['Ratio']=df_agg['std']/df_agg['mean']
 
 sns.lineplot(data=df_agg, x='POSTCODE', y= 'Ratio')
+
+#sns.displot( data= df, x= 'BATHROOMS', y= 'PRICE', kind= 'kde')
+
+#sns.displot( data= df, x= 'FLOOR_AREA', y= 'PRICE', kind= 'kde')
 
 #The graph of coefficients of variance, though not necessarily being akin to high variance with values exceeding CV= 1, still sees relatively high CV's, especially with small sample sizes within postal codes.
 
