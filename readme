@@ -60,6 +60,38 @@ sns.lineplot(data=df_agg, x='POSTCODE', y= 'Ratio')
 
 #sns.displot( data= df, x= 'FLOOR_AREA', y= 'PRICE', kind= 'kde')
 
+#sns.displot( data= df, x= 'CBD_DIST', y= 'PRICE', kind= 'kde')
+
+#sns.displot( data= df, x= 'BUILD_YEAR', y= 'PRICE', kind= 'kde')
+
+#sns.lineplot( data=df, x='DATE_SOLD', y='PRICE')
+
+
+train= df.loc[df['BUILD_YEAR'] < 1980]
+
+test = df.loc[df['BUILD_YEAR'] >= 1980]
+
+x= train[['BUILD_YEAR']] 
+
+y= train[['PRICE']]
+
+x_t=test[['BUILD_YEAR']] 
+
+y_t= test[['PRICE']]
+
+reg = linear_model.LinearRegression()
+
+reg.fit(x,y)
+
+reg.score(x_t, y_t)
+
+#-0.5160145750552234
+
+#this indicated a weak negative correlation between build year and price, assuming a linear relationship. Although it is likely the case that a nonlinear relationship might present a stronger correlation, and that further exprimentation with other combinations of variables could present a stronger correlation, the data seems to defy more conventional forms of analysis
+
+
+
+
 #The graph of coefficients of variance, though not necessarily being akin to high variance with values exceeding CV= 1, still sees relatively high CV's, especially with small sample sizes within postal codes.
 
 #The Below Code was used to upload perth data into collab:
